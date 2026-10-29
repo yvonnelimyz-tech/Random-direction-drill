@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Random Direction Drill</title>
+<style>
+body{margin:0;background:#111;color:white;font-family:-apple-system,sans-serif;text-align:center;padding:35px 20px}
+h1{font-size:28px}
+#timer{font-size:70px;font-weight:bold;margin-top:25px}
+#cue{font-size:52px;font-weight:900;height:120px;display:flex;align-items:center;justify-content:center}
+.box{background:#222;padding:18px;border-radius:18px;margin:15px auto;max-width:450px}
+button{font-size:18px;padding:14px;border:0;border-radius:12px;margin:5px}
+.mode{background:#444;color:white}
+.active{background:white;color:#111}
+#start{display:block;width:100%;max-width:450px;margin:18px auto;background:white;color:#111;font-weight:bold;font-size:21px;padding:18px}
+</style>
+</head>
 
+<body>
+
+<h1>Random Direction Drill</h1>
+
+<div id="timer">1:30</div>
+<div id="cue">READY</div>
+
+<div class="box">
+<div>Call interval</div>
+<button id="slow" class="mode active">4–8 sec</button>
+<button id="fast" class="mode">2–4 sec</button>
+
+<br><br>
+
+<label>
+<input type="checkbox" id="double" checked>
+Occasional double calls
+</label>
+</div>
+
+<button id="start">START 90 SEC</button>
+
+<script>
+const dirs=["FRONT","RIGHT","BACK","LEFT"];
+
+let min=4,max=8,running=false;
+let end,timerID,callID;
+let history=[];
+
+const cue=document.getElementById("cue");
+const timer=document.getElementById("timer");
+const start=document.getElementById("start");
+const slow=document.getElementById("slow");
+const fast=document.getElementById("fast");
+const double=document.getElementById("double");
+
+slow.onclick=()=>{
+ if(running)return;
+ min=4;max=8;
+ slow.classList.add("active");
+ fast.classList.remove("active");
+};
+
+fast.onclick=()=>{
+ if(running)return;
+ min=2;max=4;
+ fast.classList.add("active");
+ slow.classList.remove("active");
+};
+
+function pick(exclude){
+
+ let options=dirs.filter(x=>x!==exclude);
+
+ // Block more than 3 identical calls in a row
+ if(history.length>=3 &&
+ history.at(-1)===history.at(-2) &&
+ history.at(-2)===history.at(-3)){
+   options=options.filter(x=>x!==history.at(-1));
+ }
+
+ // Block obvious clockwise/counter-clockwise squares
+ if(history.length>=3){
+   const map={FRONT:0,RIGHT:1,BACK:2,LEFT:3};
+   let a=map[history.at(-3)];
+   let b=map[history.at(-2)];
+   let c=map[history.at(-1)];
+
+   options=options.filter(x=>{
+     let d=map[x];
+
+     let clockwise=
+       (b-a+4)%4===1 &&
+       (c-b+4)%4===1 &&
+       (d-c+4)%4===1;
+
+     let counter=
+       (a-b+4)%4===1 &&
+       (b-c+4)%4===1 &&
+       (c-d+4)%4===1;
+
+     return !clockwise&&!counter;
+   });
+ }
+
+ let choice=options[Math.floor(Math.random()*options.length)];
+
+ history.push(choice);
+ if(history.length>10)history.shift();
+
+ return choice;
+}
+
+function speak(text){
+ speechSynthesis.cancel();
+ let u=new SpeechSynthesisUtterance(text);
+ u.rate=1.2;
+ u.volume=1;
+ speechSynthesis.speak(u);
+}
+
+function call(){
+
+ if(!running)return;
+
+ let first=pick();
+ let text=first;
+
+ // About 22% chance of a double call
+ if(double.checked && Math.random()<0.22){
+   let second=pick(first);
+   text=first+", "+second;
+ }
+
+ cue.innerHTML=text.replace(", ","<br>");
+ speak(text);
+
+ schedule();
+}
+
+function schedule(){
+ let delay=(min+Math.random()*(max-min))*1000;
+ callID=setTimeout(()=>{
+   if(running && Date.now()<end)call();
+ },delay);
+}
+
+function update(){
+ let remaining=Math.max(0,end-Date.now());
+ let s=Math.ceil(remaining/1000);
+
+ timer.textContent=
+ Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+
+ if(remaining<=0)finish();
+}
+
+function begin(){
+ running=true;
+ history=[];
+ end=Date.now()+90000;
+
+ cue.textContent="GO";
+ start.textContent="STOP";
+
+ // Unlock iPhone speech from user tap
+ speak("Go");
+
+ timerID=setInterval(update,200);
+ callID=setTimeout(call,1200);
+}
+
+function finish(){
+ if(!running)return;
+
+ running=false;
+ clearInterval(timerID);
+ clearTimeout(callID);
+
+ timer.textContent="0:00";
+ cue.textContent="DONE";
+ start.textContent="START 90 SEC";
+
+ speak("Done");
+}
+
+function stop(){
+ running=false;
+ clearInterval(timerID);
+ clearTimeout(callID);
+ speechSynthesis.cancel();
+
+ timer.textContent="1:30";
+ cue.textContent="READY";
+ start.textContent="START 90 SEC";
+}
+
+start.onclick=()=>{
+ running?stop():begin();
+};
+</script>
+
+</body>
+</html>
