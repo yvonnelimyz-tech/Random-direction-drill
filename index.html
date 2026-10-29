@@ -42,7 +42,20 @@ Occasional double calls
 const dirs=["FRONT","RIGHT","BACK","LEFT"];
 
 let min=4,max=8,running=false;
-let end,timerID,callID;
+let end,timerID,callID,wakeLock=null;
+ async function keepAwake(){
+ if(!("wakeLock" in navigator)) return;
+ try{
+   wakeLock=await navigator.wakeLock.request("screen");
+ }catch(e){}
+}
+
+async function releaseWakeLock(){
+ if(wakeLock){
+   try{await wakeLock.release();}catch(e){}
+   wakeLock=null;
+ }
+}
 let history=[];
 
 const cue=document.getElementById("cue");
@@ -153,7 +166,7 @@ function update(){
  if(remaining<=0)finish();
 }
 
-function begin(){
+function begin(){keepAwake();
  running=true;
  history=[];
  end=Date.now()+90000;
@@ -168,7 +181,7 @@ function begin(){
  callID=setTimeout(call,1200);
 }
 
-function finish(){
+function finish(){releaseWakeLock();
  if(!running)return;
 
  running=false;
@@ -182,7 +195,7 @@ function finish(){
  speak("Done");
 }
 
-function stop(){
+function stop(){releaseWakeLock();
  running=false;
  clearInterval(timerID);
  clearTimeout(callID);
