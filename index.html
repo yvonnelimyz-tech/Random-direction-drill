@@ -27,6 +27,7 @@ button{font-size:18px;padding:14px;border:0;border-radius:12px;margin:5px}
 <div>Call interval</div>
 <button id="slow" class="mode active">4–8 sec</button>
 <button id="fast" class="mode">2–4 sec</button>
+<button id="rapid" class="mode">1–2 sec</button>
 
 <br><br>
 
@@ -64,12 +65,14 @@ const start=document.getElementById("start");
 const slow=document.getElementById("slow");
 const fast=document.getElementById("fast");
 const double=document.getElementById("double");
+const rapid=document.getElementById("rapid");
 
 slow.onclick=()=>{
  if(running)return;
  min=4;max=8;
  slow.classList.add("active");
  fast.classList.remove("active");
+ rapid.classList.remove("active");
 };
 
 fast.onclick=()=>{
@@ -77,6 +80,15 @@ fast.onclick=()=>{
  min=2;max=4;
  fast.classList.add("active");
  slow.classList.remove("active");
+ rapid.classList.remove("active");
+};
+
+rapid.onclick=()=>{
+ if(running)return;
+ min=1;max=2;
+ rapid.classList.add("active");
+ slow.classList.remove("active");
+ fast.classList.remove("active");
 };
 
 function pick(exclude){
