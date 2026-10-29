@@ -83,12 +83,17 @@ function pick(exclude){
 
  let options=dirs.filter(x=>x!==exclude);
 
- // Block more than 3 identical calls in a row
- if(history.length>=3 &&
- history.at(-1)===history.at(-2) &&
- history.at(-2)===history.at(-3)){
-   options=options.filter(x=>x!==history.at(-1));
- }
+// Never allow the same direction 3 times in a row
+if(history.length>=2 &&
+   history.at(-1)===history.at(-2)){
+  options=options.filter(x=>x!==history.at(-1));
+}
+
+// Repeats are allowed, but make them uncommon
+else if(history.length>=1 &&
+        Math.random()<0.75){
+  options=options.filter(x=>x!==history.at(-1));
+}
 
  // Block obvious clockwise/counter-clockwise squares
  if(history.length>=3){
