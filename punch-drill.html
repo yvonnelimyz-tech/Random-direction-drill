@@ -8,361 +8,260 @@
 <style>
 :root {
   color-scheme: dark;
-  --bg: #111416;
-  --panel: #1a2022;
-  --panel-2: #222a2c;
-  --line: #303a3c;
-  --ink: #f4f3ee;
-  --muted: #a4afad;
-  --accent: #d7f26a;
-  --accent-ink: #161a0c;
-  --orange: #ff8f5a;
-  --radius: 22px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg:#111416; --panel:#1a2022; --line:#303a3c; --ink:#f4f3ee;
+  --muted:#a4afad; --accent:#d7f26a; --accent-ink:#161a0c;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at 50% -18%, #293538 0, var(--bg) 48%);
-  color: var(--ink);
-  display: flex;
-  justify-content: center;
-}
-button { font: inherit; color: inherit; }
-main { width: min(560px, 100%); padding: 22px 18px 34px; }
-.topline { display:flex; justify-content:space-between; align-items:center; margin: 2px 2px 18px; }
-.brand { font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
-.live { display:flex; align-items:center; gap:7px; color:var(--muted); font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
-.dot { width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 14px #d7f26a77; }
-.site-nav { display:grid; grid-template-columns:1fr 1fr; gap:7px; padding:5px; margin:0 0 14px; border:1px solid var(--line); border-radius:15px; background:#171c1e; }
-.site-nav a { padding:10px 8px; border-radius:10px; color:var(--muted); text-align:center; text-decoration:none; font-size:12px; font-weight:750; }
-.site-nav a[aria-current="page"] { color:var(--accent-ink); background:var(--accent); }
-.site-nav a:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-.hero { text-align:center; padding: 18px 14px 20px; }
-.eyebrow { margin:0 0 10px; color:var(--muted); font-size:11px; letter-spacing:.17em; text-transform:uppercase; }
-h1 { margin:0; font-size: clamp(28px,8vw,40px); letter-spacing:-.055em; line-height:1; }
-.timer { margin:18px 0 0; font-size:clamp(58px,18vw,84px); font-weight:750; letter-spacing:-.075em; font-variant-numeric:tabular-nums; line-height:1; }
-.round-label { color:var(--muted); font-size:12px; margin-top:7px; letter-spacing:.12em; text-transform:uppercase; }
-.call-card { position:relative; overflow:hidden; margin-top:16px; padding:18px 16px 16px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(145deg,#202729,#171c1e 72%); text-align:center; }
-.call-card:before { content:""; position:absolute; width:200px; height:200px; border-radius:50%; background:#d7f26a09; filter:blur(6px); left:50%; top:-135px; transform:translateX(-50%); pointer-events:none; }
-.call-label { position:relative; color:var(--muted); font-size:11px; letter-spacing:.15em; text-transform:uppercase; }
-.call { position:relative; min-height:88px; display:flex; align-items:center; justify-content:center; gap:clamp(7px,2.7vw,15px); font-size:clamp(42px,13vw,66px); font-weight:800; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
-.call .digit { animation: pop .16s ease-out both; }
-@keyframes pop { from { opacity:.35; transform:translateY(5px) scale(.96); } to { opacity:1; transform:none; } }
-.call-status { min-height:18px; color:var(--accent); font-size:12px; font-weight:650; letter-spacing:.05em; }
-.stages { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:18px; }
-.stage { padding:10px 5px 9px; border:1px solid var(--line); border-radius:13px; color:#85918f; background:#151a1b; transition:.2s ease; }
-.stage strong { display:block; font-size:13px; letter-spacing:.04em; }
-.stage span { display:block; margin-top:3px; font-size:9px; letter-spacing:.09em; text-transform:uppercase; }
-.stage.active { color:var(--accent); border-color:#82933e; background:#242b17; box-shadow:inset 0 0 0 1px #d7f26a19; }
-.stage.done { color:#d4dcba; border-color:#4a5631; }
-.stage-track { height:3px; margin:9px 2px 0; border-radius:4px; overflow:hidden; background:#30383a; }
-.stage-fill { height:100%; width:0%; background:var(--accent); transition:width .16s linear; }
-.actions { display:grid; grid-template-columns:1.4fr 1fr; gap:10px; margin-top:15px; }
-.action { min-height:55px; border:0; border-radius:16px; font-size:14px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; cursor:pointer; transition:transform .12s, opacity .12s; }
-.action:active { transform:scale(.98); }
-.action:disabled { opacity:.48; cursor:default; }
-.start { color:var(--accent-ink); background:var(--accent); }
-.stop { color:var(--ink); background:#293133; border:1px solid #384345; }
-.settings { margin-top:12px; padding:16px; border:1px solid var(--line); border-radius:var(--radius); background:#181e20; }
-.setting-title { margin:0 0 11px; color:var(--muted); font-size:10px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; }
-.options { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
-.option { min-height:44px; border:1px solid #344043; border-radius:12px; background:#202729; color:#c7cfcc; font-weight:700; font-size:13px; cursor:pointer; }
-.option.selected { color:var(--accent-ink); background:var(--accent); border-color:var(--accent); }
-.level-row { margin-top:17px; }
-.level { padding:11px 6px; }
-.level strong { font-size:12px; }
-.level span { font-size:9px; }
-.key { margin-top:12px; padding:17px 16px 14px; border:1px solid var(--line); border-radius:var(--radius); background:#181e20; }
-.key-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; }
-.key-head h2 { margin:0; font-size:13px; letter-spacing:.02em; }
-.key-head span { color:var(--muted); font-size:10px; }
-.key-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-.key-item { display:flex; align-items:center; gap:9px; min-width:0; padding:8px 6px; border-radius:11px; background:#202729; }
-.key-num { display:grid; place-items:center; flex:0 0 29px; height:29px; border-radius:9px; color:var(--accent-ink); background:var(--accent); font-size:14px; font-weight:850; }
-.key-text { min-width:0; }
-.key-text strong { display:block; font-size:11px; white-space:nowrap; }
-.key-text small { display:block; margin-top:2px; color:var(--muted); font-size:9px; white-space:nowrap; }
-.note { margin:12px 4px 0; color:#879290; font-size:11px; line-height:1.5; text-align:center; }
-@media (max-width:380px) {
-  main { padding-left:13px; padding-right:13px; }
-  .settings,.key { padding-left:12px; padding-right:12px; }
-  .key-grid { gap:5px; }
-  .key-item { gap:6px; padding-left:4px; }
-}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -18%,#293538 0,var(--bg) 48%);color:var(--ink);display:flex;justify-content:center}
+button{font:inherit;color:inherit}
+main{width:min(480px,100%);padding:18px 16px 30px}
+.site-nav{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;margin-bottom:16px;border:1px solid var(--line);border-radius:14px;background:#171c1e}
+.site-nav a{padding:9px;color:var(--muted);text-align:center;text-decoration:none;font-size:13px;font-weight:750}
+.site-nav a[aria-current=page]{border-radius:10px;color:var(--accent-ink);background:var(--accent)}
+.topline{display:flex;justify-content:space-between;align-items:center;margin:0 3px 8px;color:var(--muted);font-size:11px;font-weight:750;letter-spacing:.13em}
+.hero{text-align:center;padding:6px 8px 14px}
+.timer{font-size:clamp(58px,17vw,78px);font-weight:760;letter-spacing:-.075em;font-variant-numeric:tabular-nums;line-height:1}
+.phase{margin-top:8px;color:var(--muted);font-size:11px;font-weight:750;letter-spacing:.16em}
+.call-card{display:flex;align-items:center;justify-content:center;min-height:170px;padding:18px 10px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#202729,#171c1e 72%);text-align:center}
+.call{display:flex;align-items:center;justify-content:center;gap:clamp(5px,2vw,12px);width:100%;min-height:120px;font-size:clamp(54px,17.5vw,88px);font-weight:850;letter-spacing:-.045em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.digit{animation:pop .16s ease-out both}
+@keyframes pop{from{opacity:.45;transform:translateY(4px) scale(.97)}to{opacity:1;transform:none}}
+.action{width:100%;min-height:58px;margin-top:12px;border:0;border-radius:15px;background:var(--accent);color:var(--accent-ink);font-size:14px;font-weight:850;letter-spacing:.08em;cursor:pointer}
+.action.running{border:1px solid #414b4e;background:#293133;color:var(--ink)}
+.action:active{transform:scale(.99)}
+.settings{margin-top:15px;padding:14px;border:1px solid var(--line);border-radius:18px;background:#181e20}
+.setting{margin:0}
+.setting+.setting{margin-top:14px}
+.setting-label{margin:0 0 7px;color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.13em;text-transform:uppercase}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.option{min-height:42px;border:1px solid #344043;border-radius:11px;background:#202729;color:#c7cfcc;font-size:12px;font-weight:750;cursor:pointer}
+.option.selected{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.option:disabled{opacity:.55}
+.key{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-radius:15px;background:#181e20}
+.key summary{color:#c7cfcc;font-size:12px;font-weight:750;cursor:pointer}
+.key-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:11px}
+.key-item{display:flex;align-items:center;gap:8px;padding:7px;border-radius:10px;background:#202729}
+.key-num{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:850}
+.key-text{font-size:11px;line-height:1.25}
+.key-text small{display:block;color:var(--muted);font-size:10px}
+@media(max-width:350px){main{padding-inline:12px}.call{font-size:clamp(48px,16vw,70px)}}
 </style>
 </head>
 <body>
 <main>
-  <div class="topline">
-    <div class="brand">Punch Drill</div>
-    <div class="live"><span class="dot"></span><span id="modeLabel">Ready</span></div>
-  </div>
   <nav class="site-nav" aria-label="Choose a drill">
     <a href="./index.html">Directions</a>
     <a href="./punch-drill.html" aria-current="page">Punches</a>
   </nav>
-
+  <div class="topline"><span>PUNCH DRILL</span><span id="modeLabel">READY</span></div>
   <section class="hero" aria-label="Round timer">
-    <p class="eyebrow">Call · React · Reset</p>
-    <h1>Find your rhythm.</h1>
     <div class="timer" id="timer" aria-live="off">1:00</div>
-    <div class="round-label" id="roundLabel">Round length</div>
+    <div class="phase" id="phaseLabel">BUILD</div>
   </section>
-
   <section class="call-card" aria-label="Punch combination">
-    <div class="call-label" id="callLabel">Your first call</div>
     <div class="call" id="call" aria-live="assertive"><span class="digit">READY</span></div>
-    <div class="call-status" id="callStatus">Choose a level, then start.</div>
   </section>
-
-  <div class="stages" aria-label="Combination length progression">
-    <div class="stage active" id="stage0"><strong>2 punches</strong><span>Build in</span></div>
-    <div class="stage" id="stage1"><strong>4 punches</strong><span>Find flow</span></div>
-    <div class="stage" id="stage2"><strong>6 punches</strong><span>Finish strong</span></div>
-  </div>
-  <div class="stage-track" aria-hidden="true"><div class="stage-fill" id="stageFill"></div></div>
-
-  <div class="actions">
-    <button class="action start" id="startButton" type="button">Start round</button>
-    <button class="action stop" id="stopButton" type="button" disabled>Stop</button>
-  </div>
-
+  <button class="action" id="startButton" type="button" aria-pressed="false">START</button>
   <section class="settings" aria-label="Round settings">
-    <p class="setting-title">Round length</p>
-    <div class="options" id="durationOptions">
-      <button class="option selected" data-duration="60" type="button" aria-pressed="true">60 sec</button>
-      <button class="option" data-duration="90" type="button" aria-pressed="false">90 sec</button>
-      <button class="option" data-duration="120" type="button" aria-pressed="false">120 sec</button>
+    <div class="setting">
+      <p class="setting-label">Round</p>
+      <div class="options" id="durationOptions">
+        <button class="option selected" data-duration="60" type="button" aria-pressed="true">60 sec</button>
+        <button class="option" data-duration="90" type="button" aria-pressed="false">90 sec</button>
+        <button class="option" data-duration="120" type="button" aria-pressed="false">120 sec</button>
+      </div>
     </div>
-    <div class="level-row">
-      <p class="setting-title">Punch level</p>
+    <div class="setting">
+      <p class="setting-label">Level</p>
       <div class="options" id="levelOptions">
-        <button class="option level selected" data-level="1" type="button" aria-pressed="true"><strong>Level 1</strong><span>1–2</span></button>
-        <button class="option level" data-level="2" type="button" aria-pressed="false"><strong>Level 2</strong><span>1–4</span></button>
-        <button class="option level" data-level="3" type="button" aria-pressed="false"><strong>Level 3</strong><span>1–6</span></button>
+        <button class="option selected" data-level="1" type="button" aria-pressed="true">1–2</button>
+        <button class="option" data-level="2" type="button" aria-pressed="false">1–4</button>
+        <button class="option" data-level="3" type="button" aria-pressed="false">1–6</button>
       </div>
     </div>
   </section>
-
-  <section class="key" aria-label="Punch number key">
-    <div class="key-head"><h2>Number key</h2><span>Lead / rear works for either stance</span></div>
+  <details class="key">
+    <summary>Number key</summary>
     <div class="key-grid">
-      <div class="key-item"><span class="key-num">1</span><span class="key-text"><strong>Jab</strong><small>Lead hand</small></span></div>
-      <div class="key-item"><span class="key-num">2</span><span class="key-text"><strong>Cross</strong><small>Rear hand</small></span></div>
-      <div class="key-item"><span class="key-num">3</span><span class="key-text"><strong>Hook</strong><small>Lead hand</small></span></div>
-      <div class="key-item"><span class="key-num">4</span><span class="key-text"><strong>Hook</strong><small>Rear hand</small></span></div>
-      <div class="key-item"><span class="key-num">5</span><span class="key-text"><strong>Uppercut</strong><small>Lead hand</small></span></div>
-      <div class="key-item"><span class="key-num">6</span><span class="key-text"><strong>Uppercut</strong><small>Rear hand</small></span></div>
+      <div class="key-item"><span class="key-num">1</span><span class="key-text">Jab<small>Lead hand</small></span></div>
+      <div class="key-item"><span class="key-num">2</span><span class="key-text">Cross<small>Rear hand</small></span></div>
+      <div class="key-item"><span class="key-num">3</span><span class="key-text">Hook<small>Lead hand</small></span></div>
+      <div class="key-item"><span class="key-num">4</span><span class="key-text">Hook<small>Rear hand</small></span></div>
+      <div class="key-item"><span class="key-num">5</span><span class="key-text">Uppercut<small>Lead hand</small></span></div>
+      <div class="key-item"><span class="key-num">6</span><span class="key-text">Uppercut<small>Rear hand</small></span></div>
     </div>
-  </section>
-  <p class="note" id="screenNote">Calls use curated combinations. The next call comes after a steady response window based on combination length.</p>
+  </details>
 </main>
 <script>
-const pools = {
-  1: {
-    2: [[1,2],[1,1],[2,1]],
-    4: [[1,1,2,1],[1,2,1,2],[1,2,1,1],[2,1,2,1],[2,1,1,2]],
-    6: [[1,1,2,1,2,1],[1,2,1,2,1,2],[1,2,1,1,2,1],[2,1,2,1,2,1],[1,1,1,2,1,2]]
+const pools={
+  1:{
+    2:[[1,2],[1,1],[2,1]],
+    4:[[1,1,2,1],[1,2,1,2],[1,2,1,1],[2,1,2,1],[2,1,1,2]],
+    6:[[1,1,2,1,2,1],[1,2,1,2,1,2],[1,2,1,1,2,1],[2,1,2,1,2,1],[1,1,1,2,1,2]]
   },
-  2: {
-    2: [[1,3],[2,3],[3,2],[1,4],[3,1]],
-    4: [[1,2,3,2],[1,1,2,3],[1,3,2,1],[2,3,2,1],[1,2,4,2],[3,2,3,2],[1,2,3,4]],
-    6: [[1,2,3,2,3,2],[1,1,2,3,2,1],[1,2,4,2,3,2],[2,3,2,1,2,3],[1,2,3,2,1,2],[1,2,3,4,2,1]]
+  2:{
+    2:[[1,3],[2,3],[1,4],[3,2],[4,2],[3,1],[2,4],[1,2]],
+    4:[[1,2,3,2],[1,3,2,4],[1,2,4,3],[2,3,2,4],[3,2,3,2],[1,4,2,3],[1,1,2,3],[1,3,2,1]],
+    6:[[1,2,3,2,4,2],[1,3,2,3,2,4],[1,2,4,2,3,2],[2,3,2,1,4,2],[1,1,2,3,2,4],[1,3,2,4,3,2],[1,2,3,2,3,4]]
   },
-  3: {
-    2: [[1,5],[2,5],[3,6],[1,6],[4,5]],
-    4: [[1,2,5,2],[1,2,3,5],[1,2,3,6],[2,3,5,2],[1,2,6,3]],
-    6: [[1,2,3,2,5,2],[1,1,2,5,2,3],[1,2,5,2,3,2],[1,2,3,5,2,3],[1,2,6,3,2,1]]
+  3:{
+    2:[[1,5],[2,6],[3,6],[1,6],[4,5],[2,5],[3,5]],
+    4:[[1,2,5,2],[1,2,3,5],[1,2,6,3],[2,3,6,2],[1,4,2,5],[1,2,5,3],[3,2,6,2]],
+    6:[[1,2,3,2,5,2],[1,2,5,2,3,2],[1,2,6,3,2,3],[1,3,2,5,2,4],[2,3,2,5,2,3],[1,2,4,2,6,3],[1,4,2,3,5,2],[1,2,3,6,3,2]]
   }
 };
-const basePools = {
-  1: pools[1],
-  2: {2:[...pools[1][2],...pools[2][2]],4:[...pools[1][4],...pools[2][4]],6:[...pools[1][6],...pools[2][6]]},
-  3: {2:[...pools[1][2],...pools[2][2],...pools[3][2]],4:[...pools[1][4],...pools[2][4],...pools[3][4]],6:[...pools[1][6],...pools[2][6],...pools[3][6]]}
-};
-const timerEl = document.getElementById('timer');
-const callEl = document.getElementById('call');
-const callLabel = document.getElementById('callLabel');
-const callStatus = document.getElementById('callStatus');
-const startButton = document.getElementById('startButton');
-const stopButton = document.getElementById('stopButton');
-const modeLabel = document.getElementById('modeLabel');
-const stageFill = document.getElementById('stageFill');
-let duration = 60;
-let level = 1;
-let running = false;
-let endAt = 0;
-let intervalId = null;
-let callTimeout = null;
-let wakeLock = null;
-let lastCalls = [];
-let speechToken = 0;
-let responseEndsAt = 0;
+const timerEl=document.getElementById('timer');
+const callEl=document.getElementById('call');
+const startButton=document.getElementById('startButton');
+const modeLabel=document.getElementById('modeLabel');
+const phaseLabel=document.getElementById('phaseLabel');
+let duration=60,level=1,running=false,endAt=0,intervalId=null,callTimeout=null,wakeLock=null,lastCalls=[],speechToken=0;
+const numberWords=['','one','two','three','four','five','six'];
 
-function formatTime(seconds) {
-  seconds = Math.max(0, Math.ceil(seconds));
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+function formatTime(seconds){
+  seconds=Math.max(0,Math.ceil(seconds));
+  return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
 }
-function currentStage() {
-  const elapsed = duration - Math.max(0, (endAt - Date.now()) / 1000);
-  return Math.min(2, Math.floor((elapsed / duration) * 3));
+function currentStage(){
+  const elapsed=duration-Math.max(0,(endAt-Date.now())/1000);
+  return Math.min(2,Math.floor((elapsed/duration)*3));
 }
-function updateStageUI() {
-  const stage = currentStage();
-  for (let i = 0; i < 3; i++) {
-    const el = document.getElementById(`stage${i}`);
-    el.classList.toggle('active', running && i === stage);
-    el.classList.toggle('done', running && i < stage);
-  }
-  const elapsed = running ? duration - Math.max(0, (endAt - Date.now()) / 1000) : 0;
-  stageFill.style.width = `${Math.max(0, Math.min(100, elapsed / duration * 100))}%`;
+function updateStage(){
+  phaseLabel.textContent=['BUILD','FLOW','FINISH'][currentStage()];
 }
-function renderCall(text) {
-  callEl.replaceChildren(...text.split(' ').map((n, i) => {
-    const span = document.createElement('span');
-    span.className = 'digit';
-    span.textContent = n;
-    span.style.animationDelay = `${i * 22}ms`;
+function renderCall(text){
+  callEl.replaceChildren(...text.split(' ').map((n,i)=>{
+    const span=document.createElement('span');
+    span.className='digit';
+    span.textContent=n;
+    span.style.animationDelay=(i*22)+'ms';
     return span;
   }));
 }
-function chooseCombo(length) {
-  const options = basePools[level][length];
-  const key = combo => combo.join('');
-  let choices = options.filter(combo => !lastCalls.includes(key(combo)));
-  if (!choices.length) choices = options;
-  const selected = choices[Math.floor(Math.random() * choices.length)];
+function chooseCombo(length){
+  const options=pools[level][length];
+  const key=combo=>combo.join('');
+  let choices=options.filter(combo=>!lastCalls.includes(key(combo)));
+  if(!choices.length)choices=options;
+  const selected=choices[Math.floor(Math.random()*choices.length)];
   lastCalls.push(key(selected));
-  if (lastCalls.length > 3) lastCalls.shift();
+  if(lastCalls.length>3)lastCalls.shift();
   return selected;
 }
-function stopSpeech() {
+function stopSpeech(){
   speechToken++;
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if('speechSynthesis'in window)window.speechSynthesis.cancel();
 }
-function speakCombo(combo, onFinished) {
-  const token = ++speechToken;
-  const words = combo.map(n => ['','one','two','three','four','five','six'][n]).join(', ');
-  if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
-    callStatus.textContent = `${combo.length}-PUNCH WINDOW`;
-    setTimeout(() => { if (running) onFinished(); }, 350);
+function speak(text,onFinished){
+  if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){
+    if(onFinished)setTimeout(onFinished,500);
     return;
   }
-  const utterance = new SpeechSynthesisUtterance(words);
-  utterance.rate = 1.12;
-  utterance.pitch = 1;
-  utterance.volume = 1;
-  utterance.onend = () => { if (running && token === speechToken) onFinished(); };
-  utterance.onerror = () => { if (running && token === speechToken) onFinished(); };
+  const token=++speechToken;
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.rate=0.98;
+  utterance.pitch=1;
+  utterance.volume=1;
+  const finish=()=>{if(token===speechToken&&onFinished)onFinished();};
+  utterance.onend=finish;
+  utterance.onerror=finish;
   window.speechSynthesis.speak(utterance);
 }
-function estimateSpeechSeconds(length) { return 0.35 + length * 0.31; }
-function responseSeconds(length) { return 1.35 + length * 0.58; }
-function announceNext() {
-  if (!running) return;
-  responseEndsAt = 0;
-  const stage = currentStage();
-  const length = [2,4,6][stage];
-  const remaining = (endAt - Date.now()) / 1000;
-  const required = estimateSpeechSeconds(length) + responseSeconds(length) + 0.2;
-  if (remaining < required) {
-    callLabel.textContent = 'Round ending';
-    callStatus.textContent = 'Finish your last combination';
-    return;
-  }
-  const combo = chooseCombo(length);
+function responseSeconds(length){return 1.45+length*0.62;}
+function announceNext(){
+  if(!running)return;
+  const length=[2,4,6][currentStage()];
+  const remaining=(endAt-Date.now())/1000;
+  const speechSeconds=0.55+length*0.31;
+  if(remaining<speechSeconds+responseSeconds(length)+0.25)return;
+  const combo=chooseCombo(length);
   renderCall(combo.join(' '));
-  callLabel.textContent = `${length}-punch combination`;
-  callStatus.textContent = 'Listen';
-  speakCombo(combo, () => {
-    if (!running) return;
-    const wait = responseSeconds(combo.length);
-    responseEndsAt = Date.now() + wait * 1000;
-    callStatus.textContent = `Throw · ${wait.toFixed(1)} sec`;
-    callTimeout = setTimeout(announceNext, wait * 1000);
+  speak(combo.map(n=>numberWords[n]).join(', '),()=>{
+    if(!running)return;
+    const wait=responseSeconds(combo.length);
+    callTimeout=setTimeout(announceNext,wait*1000);
   });
 }
-function update() {
-  if (!running) return;
-  const remaining = (endAt - Date.now()) / 1000;
-  timerEl.textContent = formatTime(remaining);
-  if (responseEndsAt && remaining > 0) {
-    const secondsLeft = Math.max(0, (responseEndsAt - Date.now()) / 1000);
-    callStatus.textContent = `Throw · ${secondsLeft.toFixed(1)} sec`;
-  }
-  updateStageUI();
-  if (remaining <= 0) finishRound();
+function update(){
+  if(!running)return;
+  const remaining=(endAt-Date.now())/1000;
+  timerEl.textContent=formatTime(remaining);
+  updateStage();
+  if(remaining<=0)finishRound(false);
 }
-async function requestWakeLock() {
-  if (!('wakeLock' in navigator) || !running) return;
-  try { wakeLock = await navigator.wakeLock.request('screen'); }
-  catch (e) { wakeLock = null; }
+async function requestWakeLock(){
+  if(!('wakeLock'in navigator)||!running)return;
+  try{wakeLock=await navigator.wakeLock.request('screen');}
+  catch(e){wakeLock=null;}
 }
-function startRound() {
-  if (running) return;
-  running = true;
-  lastCalls = [];
-  responseEndsAt = 0;
-  endAt = Date.now() + duration * 1000;
-  startButton.disabled = true;
-  stopButton.disabled = false;
-  modeLabel.textContent = 'Round live';
-  callLabel.textContent = 'Get ready';
-  callStatus.textContent = 'Find your stance';
-  renderCall('READY');
+function setControlsDisabled(disabled){
+  document.querySelectorAll('.option').forEach(button=>button.disabled=disabled);
+}
+function startRound(){
+  if(running){finishRound(true);return;}
+  running=true;
+  lastCalls=[];
+  endAt=Date.now()+duration*1000;
+  startButton.classList.add('running');
+  startButton.textContent='STOP';
+  startButton.setAttribute('aria-pressed','true');
+  modeLabel.textContent='LIVE';
+  renderCall('GO');
+  setControlsDisabled(true);
   requestWakeLock();
   update();
-  callTimeout = setTimeout(announceNext, 850);
-  intervalId = setInterval(update, 100);
+  intervalId=setInterval(update,100);
+  speak('Go',()=>{
+    if(running)callTimeout=setTimeout(announceNext,450);
+  });
 }
-function finishRound(manual = false) {
-  if (!running) return;
-  running = false;
-  responseEndsAt = 0;
+function finishRound(manual){
+  if(!running)return;
+  running=false;
   clearInterval(intervalId);
   clearTimeout(callTimeout);
   stopSpeech();
-  if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
-  startButton.disabled = false;
-  stopButton.disabled = true;
-  modeLabel.textContent = manual ? 'Stopped' : 'Round complete';
-  callLabel.textContent = manual ? 'Round stopped' : 'Round complete';
-  callStatus.textContent = manual ? 'Take a breath and reset.' : 'Nice work. Reset your stance.';
-  renderCall(manual ? 'STOP' : 'DONE');
-  timerEl.textContent = manual ? formatTime((endAt - Date.now()) / 1000) : '0:00';
-  updateStageUI();
+  if(wakeLock){wakeLock.release().catch(()=>{});wakeLock=null;}
+  startButton.classList.remove('running');
+  startButton.textContent='START';
+  startButton.setAttribute('aria-pressed','false');
+  modeLabel.textContent=manual?'STOPPED':'DONE';
+  renderCall('DONE');
+  timerEl.textContent=manual?formatTime((endAt-Date.now())/1000):'0:00';
+  if(!manual)phaseLabel.textContent='FINISHED';
+  setControlsDisabled(false);
+  speak('Done');
 }
-function setDuration(value, button) {
-  if (running) return;
-  duration = Number(value);
-  timerEl.textContent = formatTime(duration);
-  document.querySelectorAll('#durationOptions .option').forEach(el => {
-    const selected = el === button;
-    el.classList.toggle('selected', selected);
-    el.setAttribute('aria-pressed', String(selected));
+function setDuration(value,button){
+  if(running)return;
+  duration=Number(value);
+  timerEl.textContent=formatTime(duration);
+  document.querySelectorAll('#durationOptions .option').forEach(el=>{
+    const selected=el===button;
+    el.classList.toggle('selected',selected);
+    el.setAttribute('aria-pressed',String(selected));
   });
 }
-function setLevel(value, button) {
-  if (running) return;
-  level = Number(value);
-  document.querySelectorAll('#levelOptions .option').forEach(el => {
-    const selected = el === button;
-    el.classList.toggle('selected', selected);
-    el.setAttribute('aria-pressed', String(selected));
+function setLevel(value,button){
+  if(running)return;
+  level=Number(value);
+  document.querySelectorAll('#levelOptions .option').forEach(el=>{
+    const selected=el===button;
+    el.classList.toggle('selected',selected);
+    el.setAttribute('aria-pressed',String(selected));
   });
+  phaseLabel.textContent='BUILD';
 }
-document.querySelectorAll('#durationOptions .option').forEach(button => {
-  button.addEventListener('click', () => setDuration(button.dataset.duration, button));
+document.querySelectorAll('#durationOptions .option').forEach(button=>{
+  button.addEventListener('click',()=>setDuration(button.dataset.duration,button));
 });
-document.querySelectorAll('#levelOptions .option').forEach(button => {
-  button.addEventListener('click', () => setLevel(button.dataset.level, button));
+document.querySelectorAll('#levelOptions .option').forEach(button=>{
+  button.addEventListener('click',()=>setLevel(button.dataset.level,button));
 });
-startButton.addEventListener('click', startRound);
-stopButton.addEventListener('click', () => finishRound(true));
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && running && (!wakeLock || wakeLock.released)) requestWakeLock();
+startButton.addEventListener('click',startRound);
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&running&&(!wakeLock||wakeLock.released))requestWakeLock();
 });
 </script>
 </body>
