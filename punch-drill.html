@@ -261,10 +261,10 @@ function finishRound(manual){
   startButton.classList.remove('running');
   startButton.textContent='START';
   startButton.setAttribute('aria-pressed','false');
-  modeLabel.textContent=manual?'STOPPED':'DONE';
-  renderCall(manual?'STOP':'DONE');
-  timerEl.textContent=manual?formatTime((endAt-Date.now())/1000):'0:00';
-  if(!manual)phaseLabel.textContent='FINISHED';
+  modeLabel.textContent=manual?'READY':'DONE';
+  renderCall(manual?'READY':'DONE');
+  timerEl.textContent=manual?formatTime(duration):'0:00';
+  phaseLabel.textContent=manual?'BUILD':'FINISHED';
   setControlsDisabled(false);
   if(!manual)speak('Done');
 }
