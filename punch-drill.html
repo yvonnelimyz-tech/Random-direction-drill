@@ -262,11 +262,11 @@ function finishRound(manual){
   startButton.textContent='START';
   startButton.setAttribute('aria-pressed','false');
   modeLabel.textContent=manual?'STOPPED':'DONE';
-  renderCall('DONE');
+  renderCall(manual?'STOP':'DONE');
   timerEl.textContent=manual?formatTime((endAt-Date.now())/1000):'0:00';
   if(!manual)phaseLabel.textContent='FINISHED';
   setControlsDisabled(false);
-  speak('Done');
+  if(!manual)speak('Done');
 }
 function setDuration(value,button){
   if(running)return;
